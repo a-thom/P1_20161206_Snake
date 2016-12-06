@@ -8,19 +8,16 @@ var direction;
 var xDir = 1;
 var yDir = 0;
 
-var perim = 5;
-var length = 1;
+var perim = 10;
 var snakeX = [fieldX/2];
 var snakeY = [fieldY/2];
 
 var life = 1;
-var speed = 10;
+var speed = 4;
 var speedUp = 1;
 
 var foodX = round(random(0, fieldX-perim)/perim)*perim;
 var foodY = round(random(0, fieldX-perim)/perim)*perim;
-println(foodX);
-println(foodY);
 
 //Settings
 rectMode(CORNER);
@@ -34,7 +31,6 @@ var drawField = function(life){
     strokeWeight(1);
     fill(255, 255*life, 255*life);
     rect(0,0, fieldX, fieldY);
-    
     ellipse(foodX, foodY, perim, perim);
 };
 
@@ -44,22 +40,34 @@ var keyPressed = function(){
         if(key.toString() === "u" || key.toString() === "d" || key.toString() === "l" || key.toString() === "r"){
             direction = key.toString();
             //move snake
-            switch(direction){
+            switch(key.toString()){
                 case "u":
-                    xDir = 0;
-                    yDir = -1;
+                    if(direction !== "d"){
+                        direction = "u";
+                        xDir = 0;
+                        yDir = -1;
+                    }
                 break;
                 case "d":
-                    xDir = 0;
-                    yDir = 1;
+                    if(direction !== "u"){
+                        direction = "d";
+                        xDir = 0;
+                        yDir = 1;
+                    }
                 break;
                 case "l":
-                    xDir = -1;
-                    yDir = 0;
+                    if(direction !== "r"){
+                        direction = "l";
+                        xDir = -1;
+                        yDir = 0;
+                    }
                 break;
                 case "r":
-                    xDir = 1;
-                    yDir = 0;
+                    if(direction !== "l"){
+                        direction = "r";
+                        xDir = 1;
+                        yDir = 0;
+                    }
                 break;
             }
         }
@@ -74,28 +82,33 @@ var draw= function() {
         xDir = 0;
         yDir = 0;
     }
-    
+        
     //draw snake
     drawField(life);
-    for (var i=0; i<length; i++){
+    for (var i=0; i<=snakeX.length; i++){
         noStroke();
         fill(0, 0, 0);
         rect(snakeX[i], snakeY[i], perim, perim);
     }
     
     // move snake
-    snakeX[0] += xDir*perim;
-    snakeY[0] += yDir*perim;
-    
+    if(life === 1){
+        snakeX.unshift(snakeX[0]+xDir*perim);
+        println(snakeX.length);
+        snakeX.pop();
+        println(snakeX.length);
+        snakeY.unshift(snakeY[0]+yDir*perim);
+        snakeY.pop();
+    }
+        
     // snake eats food
     if(snakeX[0] === foodX && snakeY[0] === foodY){
-        length += 1;
-        println(length);
         snakeX.unshift(foodX+xDir*perim);
         snakeY.unshift(foodY+yDir*perim);
         //new random parameters for next food bite
         foodX = round(random(0, fieldX-perim)/perim)*perim;
         foodY = round(random(0, fieldX-perim)/perim)*perim;
+        speed += speedUp;
     }
 };
 
