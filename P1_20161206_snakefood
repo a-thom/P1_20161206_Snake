@@ -16,8 +16,8 @@ var life = 1;
 var speed = 4;
 var speedUp = 1;
 
-var foodX = round(random(0, fieldX-perim)/perim)*perim;
-var foodY = round(random(0, fieldX-perim)/perim)*perim;
+var foodX = round(random(0, fieldX-2*perim)/perim)*perim;
+var foodY = round(random(0, fieldX-2*perim)/perim)*perim;
 
 //Settings
 rectMode(CORNER);
@@ -37,39 +37,36 @@ var drawField = function(life){
 //change direction
 var keyPressed = function(){
     if(life ===1){
-        if(key.toString() === "u" || key.toString() === "d" || key.toString() === "l" || key.toString() === "r"){
-            direction = key.toString();
-            //move snake
-            switch(key.toString()){
-                case "u":
-                    if(direction !== "d"){
-                        direction = "u";
-                        xDir = 0;
-                        yDir = -1;
-                    }
-                break;
-                case "d":
-                    if(direction !== "u"){
-                        direction = "d";
-                        xDir = 0;
-                        yDir = 1;
-                    }
-                break;
-                case "l":
-                    if(direction !== "r"){
-                        direction = "l";
-                        xDir = -1;
-                        yDir = 0;
-                    }
-                break;
-                case "r":
-                    if(direction !== "l"){
-                        direction = "r";
-                        xDir = 1;
-                        yDir = 0;
-                    }
-                break;
-            }
+        //move snake
+        switch(keyCode.toString()){
+            case "38":
+                if(direction !== "d"){
+                    direction = "u";
+                    xDir = 0;
+                    yDir = -1;
+                }
+            break;
+            case "40":
+                if(direction !== "u"){
+                    direction = "d";
+                    xDir = 0;
+                    yDir = 1;
+                }
+            break;
+            case "37":
+                if(direction !== "r"){
+                    direction = "l";
+                    xDir = -1;
+                    yDir = 0;
+                }
+            break;
+            case "39":
+                if(direction !== "l"){
+                    direction = "r";
+                    xDir = 1;
+                    yDir = 0;
+                }
+            break;
         }
     }
 };
@@ -94,9 +91,7 @@ var draw= function() {
     // move snake
     if(life === 1){
         snakeX.unshift(snakeX[0]+xDir*perim);
-        println(snakeX.length);
         snakeX.pop();
-        println(snakeX.length);
         snakeY.unshift(snakeY[0]+yDir*perim);
         snakeY.pop();
     }
