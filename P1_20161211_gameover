@@ -6,7 +6,7 @@ var fieldY = 30;
 var fieldSzX = 450;
 var fieldSzY = 250;
 
-var direction;
+var direction="r";
 var xDir = 1;
 var yDir = 0;
 
@@ -111,6 +111,7 @@ var draw= function() {
     for (var i=0; i<=snakeX.length; i++){
         noStroke();
         fill(255, 255, 255);
+        //stroke(105, 114, 156);
         rect(snakeX[i], snakeY[i], snakeSz, snakeSz);
     }
     // snake eats food
